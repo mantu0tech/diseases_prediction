@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Health Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://t4.ftcdn.net/jpg/08/71/28/87/360_F_871288740_nb6PEKKvKjHXlAQk6h8EvZWU9kDM3F5p.jpg"); /* Replace with your background image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0); /* Fully transparent background */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 90%; /* Adjust width as needed */
+            max-width: 600px; /* Max width to ensure it doesn't stretch too much */
+            max-height: 90vh; /* Maximum height of the container */
+            box-sizing: border-box;
+            overflow: auto; /* Enable scrolling if content overflows */
+            position: relative; /* Ensure content inside is positioned correctly */
+        }
+        h1, h2, label, input, button {
+            color: #fff; /* Text color to ensure readability */
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Disease Predection</h1>
+
+        <form id="predictForm">
+            <h2>Predict Cardio</h2>
+            <!-- Add input fields for all columns except 'cardio' -->
+            <!-- Example: -->
+            <label for="id">ID:</label>
+            <input type="number" id="id" name="id"><br>
+            <label for="age">Age:</label>
+            <input type="number" step="any" id="age" name="age"><br>
+            <label for="gender">Gender:</label>
+            <input type="number" id="gender" name="gender"><br>
+            <label for="height">Height:</label>
+            <input type="number" id="height" name="height"><br>
+            <label for="weight">Weight:</label>
+            <input type="number" step="any" id="weight" name="weight"><br>
+            <label for="ap_hi">Systolic BP:</label>
+            <input type="number" id="ap_hi" name="ap_hi"><br>
+            <label for="ap_lo">Diastolic BP:</label>
+            <input type="number" id="ap_lo" name="ap_lo"><br>
+            <label for="cholesterol">Cholesterol:</label>
+            <input type="number" id="cholesterol" name="cholesterol"><br>
+            <label for="gluc">Glucose:</label>
+            <input type="number" id="gluc" name="gluc"><br>
+            <label for="smoke">Smoke:</label>
+            <input type="number" id="smoke" name="smoke"><br>
+            <label for="alco">Alcohol:</label>
+            <input type="number" id="alco" name="alco"><br>
+            <label for="active">Active:</label>
+            <input type="number" id="active" name="active"><br>
+            <button type="button" onclick="predictCardio()">Predict Cardio</button>
+        </form>
+    </div>
+    <script>
+        function predictCardio() {
+            const form = document.getElementById('predictForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Prediction: ' + data.prediction);
+            });
+        }
+    </script>
+</body>
+</html>
